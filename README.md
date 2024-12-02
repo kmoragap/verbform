@@ -75,7 +75,7 @@ You need to specify the exact paths to your Anki collection:
     - Spanish: "Básico"
     - French: "Basique"
 
-🌍 **Multilingual Tip:** Check your Anki's note type name in the card type manager.
+🌍 **Tip:** Check your Anki's note type name in the card type manager.
 
 #### 4. Language Setting
 
