@@ -152,4 +152,4 @@ Love VerbForm? Help us make it better!
 
 ---
 
-🌈 **Happy Learning!** Made with ❤️ by German Language Enthusiasts
+🌈 **Happy Learning!** Made with ❤️ by German Language Enthusiast
