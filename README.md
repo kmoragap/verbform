@@ -113,6 +113,9 @@ Edit `config.py` to customize:
 
 ### Card Design
 
+![Card Design](https://preview.redd.it/i-made-a-small-python-tool-for-creating-german-verb-anki-v0-v5br28smbi4e1.png?width=1504&format=png&auto=webp&s=976c1ad505d3b4e3114c30689d172a22ec425574)
+
+
 The `card_template.py` allows you to modify the visual style of your Anki cards. Adjust colors, fonts, and layout to suit your learning style!
 
 ## 🌐 Language Support
