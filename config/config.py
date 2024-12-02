@@ -6,7 +6,7 @@ ANKI_MEDIA_PATH = "/path/to/anki/media/collection"
 
 # Anki configuration
 DECK_NAME = "Deutsch"
-MODEL_NAME = "Básico"
+MODEL_NAME = "Basic"
 
 # Language settings
 LANGUAGE = "es"  # Change this to your desired language (fr, es, en, etc.)
