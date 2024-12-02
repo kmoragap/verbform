@@ -34,11 +34,6 @@ Before you begin, ensure you have:
    ```bash
    pip install -r requirements.txt
    ```
-3. Add your collection path and media in `config.py`
-   ```python
-   ANKI_COLLECTION_PATH = "/path/to/anki/collection"
-   ANKI_MEDIA_PATH = "/Users/krismoraga/Library/Application Support/Anki2/Usuario 1/collection.media"
-   ```
 
 ## 🔧 Configuration
 
