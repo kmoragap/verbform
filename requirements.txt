@@ -1,0 +1,4 @@
+requests==2.31.0
+beautifulsoup4==4.12.3
+anki==2.1.65
+colorama==0.4.6
