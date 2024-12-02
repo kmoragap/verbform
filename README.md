@@ -34,6 +34,56 @@ Before you begin, ensure you have:
    ```bash
    pip install -r requirements.txt
    ```
+3. Add your collection path and media in `config.py`
+   ```python
+   ANKI_COLLECTION_PATH = "/path/to/anki/collection"
+   ANKI_MEDIA_PATH = "/Users/krismoraga/Library/Application Support/Anki2/Usuario 1/collection.media"
+   ```
+
+## 🔧 Configuration
+
+### Detailed Configuration Guide
+
+Before using VerbForm, you **MUST** configure the `config.py` file carefully. Here's a step-by-step walkthrough:
+
+#### 1. Anki Collection Paths
+
+You need to specify the exact paths to your Anki collection:
+
+- `ANKI_COLLECTION_PATH`: The path to your Anki collection file
+- `ANKI_MEDIA_PATH`: The path to your Anki media folder
+
+🔍 **How to Find Your Paths:**
+- For macOS: `/Users/[YourUsername]/Library/Application Support/Anki2/[Profile Name]/`
+- For Windows: `C:\Users\[YourUsername]\AppData\Roaming\Anki2\[Profile Name]\`
+- For Linux: `~/.local/share/Anki2/[Profile Name]/`
+
+🌐 **Helpful Resources:**
+- [Anki Manual: Finding Collection Paths](https://docs.ankiweb.net/files.html)
+
+#### 2. Deck Configuration
+
+- `DECK_NAME`: The name of the Anki deck where cards will be added
+  - Can be an existing deck
+  - Or create a new deck by simply entering a new name
+
+#### 3. Model Name
+
+- `MODEL_NAME`: The type of note template
+  - Default is "Basic" (English)
+  - Varies by Anki's language setting, e.g.:
+    - Spanish: "Básico"
+    - French: "Basique"
+
+🌍 **Multilingual Tip:** Check your Anki's note type name in the card type manager.
+
+#### 4. Language Setting
+
+- `LANGUAGE`: Set the language code for translations
+  - `'es'` for Spanish
+  - `'fr'` for French
+  - `'en'` for English
+  - etc.
 
 ## 🚀 Usage
 
@@ -92,6 +142,7 @@ Love VerbForm? Help us make it better!
 ## 📍 Roadmap
 
 - [ ] Create web interface
+- [ ] New card templates
 
 ## 🔗 Quick Links
 
