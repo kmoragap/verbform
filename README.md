@@ -90,6 +90,19 @@ Create Anki cards for verbs directly from the command line:
 python main.py machen lernen spielen
 ```
 
+### Adding Nouns
+
+To add a noun to your Anki deck, use the `--noun` flag:
+
+```bash
+python3.12 main.py --noun <noun>
+```
+
+Example:
+```bash
+python3.12 main.py --noun libro
+```
+
 ### Supported Commands
 
 - Add a single verb: `python main.py lernen`
