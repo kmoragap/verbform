@@ -83,10 +83,12 @@ def extract_verb_data(word, config):
 
 def extract_multiple_verbs(verbs, config):
     """Extract data for multiple verbs"""
-    results = {}
+    data = {}
     for verb in verbs:
-        results[verb] = extract_verb_data(verb, config)
-    return results
+        verb_data = extract_verb_data(verb, config)
+        if verb_data:
+            data[verb] = verb_data
+    return data
 
 #def search_verb(word, config):
 #    """Search for verb suggestions"""

@@ -9,6 +9,7 @@ sys.path.extend([str(base_path / 'config'), str(base_path / 'scraper'), str(base
 
 import config
 from scraper.verb_scraper import extract_verb_data, extract_multiple_verbs
+from scraper.noun_scraper import extract_noun_data, extract_multiple_nouns
 from anki.anki_utils import add_card_to_anki
 
 def main():
@@ -20,21 +21,36 @@ def main():
     input(f"{Fore.YELLOW}Press Enter to continue once Anki is closed...{Style.RESET_ALL}")
     
     if len(sys.argv) < 2:
-        print(f"{Fore.RED}Error: At least one verb is required as an argument{Style.RESET_ALL}")
-        print(f"{Fore.YELLOW}Usage: python main.py <verb1> <verb2> ... <verbN>{Style.RESET_ALL}")
-        print(f"\n{Fore.CYAN}💡 Pro tip: You can add multiple verbs at once!{Style.RESET_ALL}")
+        print(f"{Fore.RED}Error: Arguments required{Style.RESET_ALL}")
+        print(f"{Fore.YELLOW}Usage for verbs: python main.py <verb1> <verb2> ... <verbN>{Style.RESET_ALL}")
+        print(f"{Fore.YELLOW}Usage for nouns: python main.py --noun <noun1> <noun2> ... <nounN>{Style.RESET_ALL}")
+        print(f"\n{Fore.CYAN}💡 Pro tip: You can add multiple words at once!{Style.RESET_ALL}")
         return
+
+    is_noun = False
+    if sys.argv[1] == '--noun':
+        if len(sys.argv) < 3:
+            print(f"{Fore.RED}Error: At least one noun is required after --noun{Style.RESET_ALL}")
+            return
+        is_noun = True
+        words = sys.argv[2:]
+    else:
+        words = sys.argv[1:]
+
+    word_type = "nouns" if is_noun else "verbs"
+    print(f"{Fore.CYAN}🔍 Searching for information for the {word_type}: {Fore.WHITE}{', '.join(words)}...{Style.RESET_ALL}")
     
-    words = sys.argv[1:]
-    print(f"{Fore.CYAN}🔍 Searching for information for the verbs: {Fore.WHITE}{', '.join(words)}...{Style.RESET_ALL}")
+    if is_noun:
+        data = extract_multiple_nouns(words, config)
+    else:
+        data = extract_multiple_verbs(words, config)
     
-    data = extract_multiple_verbs(words, config)
-    for word, verb_data in data.items():
-        if verb_data:
-            print(f"{Fore.GREEN}✅ Adding card for the verb: {word}{Style.RESET_ALL}")
-            add_card_to_anki(verb_data, config)
+    for word, word_data in data.items():
+        if word_data:
+            print(f"{Fore.GREEN}✅ Adding card for the {word_type[:-1]}: {word}{Style.RESET_ALL}")
+            add_card_to_anki(word_data, config)
         else:
-            print(f"{Fore.RED}❌ No information found for the verb: {word}{Style.RESET_ALL}")
+            print(f"{Fore.RED}❌ No information found for the {word_type[:-1]}: {word}{Style.RESET_ALL}")
     
     print("\n")
     print(f"{Fore.BLUE}📚 Enjoy your language learning journey!{Style.RESET_ALL}")
@@ -46,5 +62,6 @@ def main():
     print("\n")
     print(f"{Fore.CYAN}🌟 Spread the word! Share VerbForm with your friends!{Style.RESET_ALL}")
     print("\n")
+
 if __name__ == "__main__":
     main()

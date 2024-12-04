@@ -1,5 +1,5 @@
 from anki.collection import Collection
-from templates.card_template import get_front_template, get_back_template
+from templates.card_template import get_front_template, get_back_template, get_noun_front_template, get_noun_back_template
 
 def add_card_to_anki(data, config):
     col = Collection(config.ANKI_COLLECTION_PATH)
@@ -16,9 +16,15 @@ def add_card_to_anki(data, config):
     note = col.new_note(model)
     note.deck_id = deck_id
 
-    # Create card content using templates
-    note.fields[0] = get_front_template(data, config.COLORS)
-    note.fields[1] = get_back_template(data, config.COLORS)
+    if 'verb' in data:
+        front_template = get_front_template(data, config.COLORS)
+        back_template = get_back_template(data, config.COLORS)
+    else:
+        front_template = get_noun_front_template(data, config.COLORS)
+        back_template = get_noun_back_template(data, config.COLORS)
+
+    note.fields[0] = front_template
+    note.fields[1] = back_template
 
     col.add_note(note, deck_id)
     #print(f"'{data['verb']}' successfully added to deck '{config.DECK_NAME}'.")
