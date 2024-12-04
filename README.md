@@ -1,4 +1,4 @@
-# 🇩🇪 VerbForm: Your German Verb Learning Tool 📚
+# 🇩🇪 VerbForm: Python tool for creating German verb Anki cards  📚
 
 ## 🌟 Overview
 
