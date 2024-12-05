@@ -31,7 +31,8 @@ def extract_noun_data(word, config):
     
     if stem_element := soup.find("p", class_="vStm"):
         data["stem"] = stem_element.text.strip()
-
+        # strip out superscripts and subscripts
+        data["stem"] = ''.join([i for i in data["stem"] if ord(i) < 256])
         if audio_link := stem_element.find("a"):
             audio_filename = f"{data['noun']}_stem.mp3"
             data["audio_stem"] = download_audio(
@@ -75,6 +76,7 @@ def extract_multiple_nouns(nouns, config):
     data = {}
     for noun in nouns:
         noun_data = extract_noun_data(noun, config)
+        noun_data['type'] = 'noun'
         if noun_data:
             data[noun] = noun_data
     return data

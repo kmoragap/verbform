@@ -86,6 +86,7 @@ def extract_multiple_verbs(verbs, config):
     data = {}
     for verb in verbs:
         verb_data = extract_verb_data(verb, config)
+        verb_data['type'] = 'verb'
         if verb_data:
             data[verb] = verb_data
     return data
