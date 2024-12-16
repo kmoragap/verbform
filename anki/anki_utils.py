@@ -19,12 +19,19 @@ def add_card_to_anki(data, config):
     if data['type'] == 'verb':
         front_template = get_verb_front_template(data, config.COLORS)
         back_template = get_verb_back_template(data, config.COLORS)
+        note.add_tag('#Deutsch::verb');
     elif data['type'] == 'noun':
         front_template = get_noun_front_template(data, config.COLORS)
         back_template = get_noun_back_template(data, config.COLORS)
+        note.add_tag('#Deutsch::noun');
     elif data['type'] == 'adverb':
         front_template = get_adverb_front_template(data, config.COLORS)
         back_template = get_adverb_back_template(data, config.COLORS)
+        note.add_tag('#Deutsch::adverb');
+    elif data['type'] == 'adjective':
+        front_template = get_adjective_front_template(data, config.COLORS)
+        back_template = get_adjective_back_template(data, config.COLORS)
+        note.add_tag('#Deutsch::adjective');
 
     note.fields[0] = front_template
     note.fields[1] = back_template
@@ -32,40 +39,44 @@ def add_card_to_anki(data, config):
     col.add_note(note, deck_id)
 
     if config.CREATE_REVERSE:
-        note = col.new_note(model)
-        note.deck_id = deck_id
+        if data['type'] == 'verb' or data['type'] == 'noun':
+            note = col.new_note(model)
+            note.deck_id = deck_id
 
-        if data['type'] == 'verb':
-            front_template = get_verb_front_template_reverse(data, config.COLORS)
-            back_template = get_verb_back_template_reverse(data, config.COLORS)
-        elif data['type'] == 'noun':
-            front_template = get_noun_front_template_reverse(data, config.COLORS)
-            back_template = get_noun_back_template_reverse(data, config.COLORS)
+            if data['type'] == 'verb':
+                front_template = get_verb_front_template_reverse(data, config.COLORS)
+                back_template = get_verb_back_template_reverse(data, config.COLORS)
+                note.add_tag('#Deutsch::verb');
+            elif data['type'] == 'noun':
+                front_template = get_noun_front_template_reverse(data, config.COLORS)
+                back_template = get_noun_back_template_reverse(data, config.COLORS)
+                note.add_tag('#Deutsch::noun');
 
-        note.fields[0] = front_template
-        note.fields[1] = back_template
+            note.fields[0] = front_template
+            note.fields[1] = back_template
 
-        col.add_note(note, deck_id)
+            col.add_note(note, deck_id)
 
     if config.CREATE_CLOZE:
-        model = col.models.by_name("Cloze")
-        if not model:
-            print(f"Error: Model 'Cloze' not found.")
-            col.close()
-            return
-        
-        note = col.new_note(model)
-        note.deck_id = deck_id
+        if data['type'] == 'verb' or data['type'] == 'noun':
+            model = col.models.by_name("Cloze")
+            if not model:
+                print(f"Error: Model 'Cloze' not found.")
+                col.close()
+                return
+            
+            note = col.new_note(model)
+            note.deck_id = deck_id
 
-        if data['type'] == 'verb':
-            front_template = get_verb_template_cloze(data, config.COLORS)
-        elif data['type'] == 'noun':
-            front_template = get_noun_template_cloze(data, config.COLORS)
+            if data['type'] == 'verb':
+                front_template = get_verb_template_cloze(data, config.COLORS)
+                note.add_tag('#Deutsch::verb');
+            elif data['type'] == 'noun':
+                front_template = get_noun_template_cloze(data, config.COLORS)
+                note.add_tag('#Deutsch::noun');
 
-        note.fields[0] = front_template
+            note.fields[0] = front_template
 
-        col.add_note(note, deck_id)
-
-    #print(f"'{data['verb']}' successfully added to deck '{config.DECK_NAME}'.")
+            col.add_note(note, deck_id)
     
     col.close()

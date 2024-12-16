@@ -6,7 +6,9 @@ import os
 def extract_noun_data(word, config):
     """Main function to extract noun data from verbformen.de"""
     url = f"{config.BASE_URL}/deklination/substantive/steckbrief/info/{word}.htm"
-    headers = {"Accept-Language": config.LANGUAGE}
+    headers = requests.utils.default_headers()
+    headers.update({"Accept-Language": config.LANGUAGE})
+    headers.update({'User-Agent': 'Mozilla/5.0'})
     
     response = requests.get(url, headers=headers)
     if response.status_code != 200:
@@ -18,7 +20,9 @@ def extract_noun_data(word, config):
 
     noun_element = soup.find("span", class_="vGrnd")
     if noun_element:
-        data["noun"] = noun_element.text.strip()
+        raw = noun_element.text.strip()
+        explode = raw.split('/')
+        data["noun"] = explode[0]
         
         if audio_link := noun_element.find("a"):
             audio_filename = f"{data['noun']}_noun.mp3"
@@ -55,7 +59,7 @@ def extract_noun_data(word, config):
     example_block = soup.find(lambda tag: tag.name == "p" and "»" in tag.get_text())
     if example_block:
         spans = example_block.find_all("span")
-        if len(spans) >= 2:
+        if len(spans) > 2:
             german_example = spans[0].get_text()
             german_example = german_example.replace("»", "").strip()
             
@@ -76,7 +80,9 @@ def extract_multiple_nouns(nouns, config):
     data = {}
     for noun in nouns:
         noun_data = extract_noun_data(noun, config)
-        noun_data['type'] = 'noun'
         if noun_data:
+            noun_data['type'] = 'noun'
             data[noun] = noun_data
+        else:
+            data[noun] = None
     return data

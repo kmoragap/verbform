@@ -18,7 +18,9 @@ def download_audio(url, filename, media_path, base_url):
 def extract_verb_data(word, config):
     """Main function to extract verb data from verbformen.de"""
     url = f"{config.BASE_URL}/konjugation/steckbrief/info/{word}.htm"
-    headers = {"Accept-Language": config.LANGUAGE}
+    headers = requests.utils.default_headers()
+    headers.update({"Accept-Language": config.LANGUAGE})
+    headers.update({'User-Agent': 'Mozilla/5.0'})
     
     response = requests.get(url, headers=headers)
     if response.status_code != 200:
@@ -30,7 +32,9 @@ def extract_verb_data(word, config):
     
     verb_element = soup.find("span", id="grundform")
     if verb_element:
-        data["verb"] = verb_element.text.strip()
+        raw = verb_element.text.strip()
+        explode = raw.split('/')
+        data["verb"] = explode[0]
         
         if audio_link := verb_element.find("a"):
             audio_filename = f"{data['verb']}_infinitiv.mp3"
@@ -66,11 +70,16 @@ def extract_verb_data(word, config):
     example_block = soup.find(lambda tag: tag.name == "p" and "»" in tag.get_text())
     if example_block:
         spans = example_block.find_all("span")
-        if len(spans) >= 2:
+        if len(spans) > 2:
             german_example = spans[0].get_text()
             german_example = german_example.replace("»", "").strip()
             
             translation_span = spans[2]
+
+            # Compound verbs handling
+            if "·" in data["verb"] and len(spans) > 3:
+                translation_span = spans[3]
+
             if translation_span.find('img'):
                 translation_span.find('img').decompose()
             example_translation = translation_span.get_text().strip()
@@ -86,19 +95,10 @@ def extract_multiple_verbs(verbs, config):
     data = {}
     for verb in verbs:
         verb_data = extract_verb_data(verb, config)
-        verb_data['type'] = 'verb'
         if verb_data:
+            verb_data['type'] = 'verb'
             data[verb] = verb_data
+        else:
+            data[verb] = None
     return data
-
-#def search_verb(word, config):
-#    """Search for verb suggestions"""
-#    url = f"{config.BASE_URL}/search/{word}"
-#    response = requests.get(url, headers={"Accept-Language": config.LANGUAGE})
-#    if response.status_code != 200:
-#        return []
-    
-#    soup = BeautifulSoup(response.text, "html.parser")
-#    suggestions = soup.find_all("a", class_="rKrm")
-#    return [suggestion.text.strip() for suggestion in suggestions]
 

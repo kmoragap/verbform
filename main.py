@@ -12,9 +12,10 @@ import config
 from scraper.verb_scraper import extract_multiple_verbs
 from scraper.noun_scraper import extract_multiple_nouns
 from scraper.adverb_scraper import extract_multiple_adverbs
+from scraper.adjective_scraper import extract_multiple_adjectives
 from anki.anki_utils import add_card_to_anki
 
-Types = enum.Enum('Types', [('VERB', 1), ('NOUN', 2), ('ADVERB', 3)])
+Types = enum.Enum('Types', [('VERB', 1), ('NOUN', 2), ('ADVERB', 3), ('ADJECTIVE', 4)])
 
 def main():
     print(f"\n{Fore.CYAN}================================")
@@ -38,8 +39,10 @@ def main():
         elif arg == '--cloze':
             config.CREATE_CLOZE = True
 
-    sys.argv.remove('--reverse')
-    sys.argv.remove('--cloze')
+    if config.CREATE_REVERSE:
+        sys.argv.remove('--reverse')
+    if config.CREATE_CLOZE:
+        sys.argv.remove('--cloze')
     if sys.argv[1] == '--noun':
         if len(sys.argv) < 3:
             print(f"{Fore.RED}Error: At least one noun is required after --noun{Style.RESET_ALL}")
@@ -52,6 +55,12 @@ def main():
             return
         type = Types.ADVERB
         words = sys.argv[2:]
+    elif sys.argv[1] == '--adjective':
+        if len(sys.argv) < 3:
+            print(f"{Fore.RED}Error: At least one adjective is required after --adjective{Style.RESET_ALL}")
+            return
+        type = Types.ADJECTIVE
+        words = sys.argv[2:]
     else:
         words = sys.argv[1:]
         type = Types.VERB
@@ -63,6 +72,8 @@ def main():
         word_type = "verbs"
     elif type == Types.ADVERB:
         word_type = "adverbs"
+    elif type == Types.ADJECTIVE:
+        word_type = "adjectives"
     
     print(f"{Fore.CYAN}🔍 Searching for information for the {word_type}: {Fore.WHITE}{', '.join(words)}...{Style.RESET_ALL}")
     
@@ -72,6 +83,8 @@ def main():
         data = extract_multiple_verbs(words, config)
     elif type == Types.ADVERB:
         data = extract_multiple_adverbs(words, config)
+    elif type == Types.ADJECTIVE:
+        data = extract_multiple_adjectives(words, config)
     
     for word, word_data in data.items():
         if word_data:
