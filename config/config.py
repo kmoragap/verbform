@@ -1,11 +1,11 @@
 import os
 
 # Anki paths
-ANKI_COLLECTION_PATH = "/Users/snandaku/Library/Application Support/Anki2/Srinath M1/collection.anki2"
-ANKI_MEDIA_PATH = "/Users/snandaku/Library/Application Support/Anki2/Srinath M1/collection.media"
+ANKI_COLLECTION_PATH = "/path/to/anki/collection"
+ANKI_MEDIA_PATH = "/path/to/anki/media/collection"
 
 # Anki configuration
-DECK_NAME = "Deutsch::Kapitel 2: Freunde, Kollegen und ich"
+DECK_NAME = "Deutsch"
 MODEL_NAME = "Basic"
 
 # Language settings
