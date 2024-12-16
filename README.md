@@ -123,6 +123,19 @@ Example:
 python3.12 main.py --adverb gern
 ```
 
+### Adding Adjectives
+
+To add an adjective to your Anki deck, use the `--adjective` flag:
+
+```bash
+python3.12 main.py --adjective <adjective>
+```
+
+Example:
+```bash
+python3.12 main.py --adjective ganz
+```
+
 ### Supported Commands
 
 - Add a single verb: `python main.py lernen`
