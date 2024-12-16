@@ -103,10 +103,36 @@ Example:
 python3.12 main.py --noun libro
 ```
 
+Use the `--reverse` and/or `--cloze` flags to generate multiple cards from the noun. Reverse will flip front and back for better recall. Cloze will create a cloze on (1) der/die/das, (2) genitive case, and (3) plural form
+
+Example:
+```bash
+python3.12 main.py --noun libro --reverse --cloze
+```
+
+### Adding Adverbs
+
+To add an adverb to your Anki deck, use the `--adverb` flag:
+
+```bash
+python3.12 main.py --adverb <adverb>
+```
+
+Example:
+```bash
+python3.12 main.py --adverb gern
+```
+
 ### Supported Commands
 
 - Add a single verb: `python main.py lernen`
 - Add multiple verbs: `python main.py machen spielen gehen`
+- Use the `--reverse` and/or `--cloze` flags to generate multiple cards from the verb. Reverse will flip front and back for better recall. Cloze will create a cloze on (1) 3rd person Präsens, (2) 3rd person Präteritum, and (3) past Partzip
+
+Example:
+```bash
+python3.12 main.py lernen --reverse --cloze
+```
 
 ### Important Notes
 
