@@ -9,8 +9,9 @@ DECK_NAME = "Deutsch"
 MODEL_NAME = "Basic"
 
 # Language settings
-LANGUAGE = "es"  # Change this to your desired language (fr, es, en, etc.)
+LANGUAGE = "en"  # Change this to your desired language (fr, es, en, etc.)
 BASE_URL = "https://www.verbformen.de"
+ALT_BASE_URL = "https://verben.de"
 
 # VerbForm URLs
 GITHUB_URL = "https://github.com/kmoragap/verbform"
@@ -26,3 +27,8 @@ COLORS = {
     'purple': '#b4a4de',
     'bg_highlight': '#191919'
 }
+
+# Deck options
+CREATE_REVERSE = False
+CREATE_CLOZE = False
+
