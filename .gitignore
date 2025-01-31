@@ -1,0 +1,13 @@
+**/__pycache__/
+.DS_Store
+Thumbs.db
+venv/
+env/
+.vscode/
+.idea/
+*.pyc
+*.pyo
+*.pyd
+*.log
+*.anki2
+*.apkg
