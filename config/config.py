@@ -20,15 +20,18 @@ ISSUES_URL = f"{GITHUB_URL}/issues"
 
 # Theme colors
 COLORS = {
-    'bg': '#0f0f0f',
-    'fg': '#f0f0f0',
-    'gray': '#6c6f93',
-    'blue': '#7f9cba',
-    'purple': '#b4a4de',
-    'bg_highlight': '#191919'
+    "bg": "#0f0f0f",
+    "fg": "#f0f0f0",
+    "gray": "#6c6f93",
+    "blue": "#7f9cba",
+    "purple": "#b4a4de",
+    "bg_highlight": "#191919",
 }
 
 # Deck options
 CREATE_REVERSE = False
 CREATE_CLOZE = False
 
+# Rate limiting (prevents HTTP 429 errors when mass-scraping)
+REQUEST_DELAY = 2  # Seconds between requests (reduced with session caching)
+MAX_RETRIES = 3  # Retry attempts for HTTP 429 errors

@@ -1,5 +1,6 @@
 .claude/
 .agents/
+tests/
 CLAUDE.MD
 **/__pycache__/
 **/.DS_Store
