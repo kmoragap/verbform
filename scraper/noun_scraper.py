@@ -2,17 +2,19 @@ import requests
 from bs4 import BeautifulSoup
 from verb_scraper import download_audio
 import os
+from scraper_utils import fetch_with_retry
 
 def extract_noun_data(word, config):
     """Main function to extract noun data from verbformen.de"""
     url = f"{config.BASE_URL}/deklination/substantive/steckbrief/info/{word}.htm"
-    headers = requests.utils.default_headers()
-    headers.update({"Accept-Language": config.LANGUAGE})
-    headers.update({'User-Agent': 'Mozilla/5.0'})
+    headers = {
+        "Accept-Language": config.LANGUAGE,
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+    }
     
-    response = requests.get(url, headers=headers)
-    if response.status_code != 200:
-        print(f"Error: Could not access page for word '{word}'.")
+    response, error = fetch_with_retry(url, headers, config)
+    if error:
+        print(f"Error for '{word}': {error}")
         return None
     
     soup = BeautifulSoup(response.text, "html.parser")
