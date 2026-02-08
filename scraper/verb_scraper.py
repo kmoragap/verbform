@@ -19,14 +19,40 @@ def download_audio(url, filename, media_path, base_url):
 
     return f"[sound:{filename}]"
 
+def normalize_verb_input(word):
+    """
+    Normalize verb input to base infinitive form.
+    Handles cases where user inputs 'umzusetzen' instead of 'umsetzen'.
+    For separable verbs, removes the 'zu' insertion (e.g., umzusetzen -> umsetzen).
+    """
+    # Common separable verb prefixes in German
+    separable_prefixes = [
+        'ab', 'an', 'auf', 'aus', 'bei', 'ein', 'empor', 'entgegen', 'fort',
+        'vor', 'weg', 'zu', 'zurück', 'zusammen', 'durch', 'über', 'unter',
+        'wieder', 'gegen', 'hinter', 'mit', 'nach', 'nieder', 'statt', 'um'
+    ]
+
+    # Check if verb has 'zu' inserted after a separable prefix
+    # Pattern: prefix + zu + verbstem + en (e.g., umzusetzen -> umsetzen)
+    for prefix in separable_prefixes:
+        if word.startswith(prefix + 'zu'):
+            # Remove the 'zu' to get base form
+            base_form = prefix + word[len(prefix) + 2:]
+            return base_form
+
+    return word
+
 def extract_verb_data(word, config):
     """Main function to extract verb data from verbformen.de"""
-    url = f"{config.BASE_URL}/konjugation/steckbrief/info/{word}.htm"
+    # Normalize input to handle 'zu' forms (e.g., umzusetzen -> umsetzen)
+    normalized_word = normalize_verb_input(word)
+
+    url = f"{config.BASE_URL}/konjugation/steckbrief/info/{normalized_word}.htm"
     headers = {
         "Accept-Language": config.LANGUAGE,
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
     }
-    
+
     response, error = fetch_with_retry(url, headers, config)
     if error:
         print(f"Error for '{word}': {error}")
