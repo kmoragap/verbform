@@ -33,5 +33,5 @@ CREATE_REVERSE = False
 CREATE_CLOZE = False
 
 # Rate limiting (prevents HTTP 429 errors when mass-scraping)
-REQUEST_DELAY = 2  # Seconds between requests (reduced with session caching)
+REQUEST_DELAY = 1  # Seconds between requests (reduced with session caching)
 MAX_RETRIES = 3  # Retry attempts for HTTP 429 errors

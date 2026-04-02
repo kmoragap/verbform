@@ -1,4 +1,4 @@
-import cloudscraper
+import requests
 from bs4 import BeautifulSoup
 import os
 from scraper_utils import fetch_with_retry
@@ -10,9 +10,15 @@ def download_audio(url, filename, media_path, base_url):
 
     audio_path = os.path.join(media_path, filename)
 
-    # Use cloudscraper for audio downloads too
-    scraper = cloudscraper.create_scraper(browser='chrome')
-    audio_data = scraper.get(url)
+    # Use requests.Session for audio downloads
+    import requests
+    from urllib.parse import urlparse
+    from scraper.scraper_utils import get_scraper_for_domain
+
+    parsed_url = urlparse(url)
+    domain = parsed_url.netloc
+    session = get_scraper_for_domain(domain)
+    audio_data = session.get(url)
 
     with open(audio_path, "wb") as f:
         f.write(audio_data.content)
@@ -22,12 +28,7 @@ def download_audio(url, filename, media_path, base_url):
 def extract_verb_data(word, config):
     """Main function to extract verb data from verbformen.de"""
     url = f"{config.BASE_URL}/konjugation/steckbrief/info/{word}.htm"
-    headers = {
-        "Accept-Language": config.LANGUAGE,
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
-    }
-    
-    response, error = fetch_with_retry(url, headers, config)
+    response, error = fetch_with_retry(url, config)
     if error:
         print(f"Error for '{word}': {error}")
         return None

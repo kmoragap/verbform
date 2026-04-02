@@ -7,12 +7,7 @@ from scraper_utils import fetch_with_retry
 def extract_noun_data(word, config):
     """Main function to extract noun data from verbformen.de"""
     url = f"{config.BASE_URL}/deklination/substantive/steckbrief/info/{word}.htm"
-    headers = {
-        "Accept-Language": config.LANGUAGE,
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
-    }
-    
-    response, error = fetch_with_retry(url, headers, config)
+    response, error = fetch_with_retry(url, config)
     if error:
         print(f"Error for '{word}': {error}")
         return None
