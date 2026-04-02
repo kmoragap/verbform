@@ -1,12 +1,12 @@
 .claude/
 .agents/
-tests/
 CLAUDE.MD
 **/__pycache__/
 **/.DS_Store
 Thumbs.db
 venv/
 env/
+.venv/
 .vscode/
 .idea/
 *.pyc
